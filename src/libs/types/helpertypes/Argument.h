@@ -4,18 +4,6 @@ using namespace std;
 
 #include "enums.h"
 
-class Params {
-  public:
-    Params(string theta, string phi, string lambda);
-
-    string getParam(ParamType type);
-
-  private:
-    string theta;
-    string phi;
-    string lambda;
-};
-
 class Argument {
   public:
     Argument(ArgumentType type, string identifier, int index);
