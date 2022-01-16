@@ -6,7 +6,10 @@ RegisterDeclaration::RegisterDeclaration(RegisterType type, string identifier, i
     this->size = size;
 }
 
-Statement* RegisterDeclaration::Create(RegisterType type, string identifier, int size) {
+Statement* RegisterDeclaration::Create(string s, RegisterType type) {
+    string identifier = HelperParser::GetName(s);
+    int size = HelperParser::GetSize(s);
+    
     return new RegisterDeclaration(type, identifier, size);
 }
 

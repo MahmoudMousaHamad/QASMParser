@@ -5,7 +5,12 @@ Measure::Measure(Argument *qarg, Argument *carg) {
     this->carg = carg;
 }
 
-Statement* Measure::Create(Argument *qarg, Argument *carg) {
+Statement* Measure::Create(string s) {
+    vector<string> tokens = HelperParser::Tokenize(s);
+
+    Argument *qarg = HelperParser::ParseArg(tokens[0]);
+    Argument *carg = HelperParser::ParseArg(tokens[2]);
+    
     return new Measure(qarg, carg);
 }
 

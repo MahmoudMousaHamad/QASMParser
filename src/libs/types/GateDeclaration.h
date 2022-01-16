@@ -5,29 +5,23 @@ class GateDeclaration : public Statement {
     GateDeclaration(
       string identifier,
       Params *params,
-      vector<string> qargs,
+      vector<Argument> qargs,
       vector<Statement> bodyStatements,
       GateType gateType
     );
 
-    static Statement* Create(
-      string identifier,
-      Params *params,
-      vector<string> qargs,
-      vector<Statement> bodyStatements,
-      GateType gateType
-    );
+    static Statement* Create(string s, GateType gateType = GateType::unitary);
 
     string getIdentifier();
     Params* getGateParams();
-    vector<string> getQargs();
+    vector<Argument> getQargs();
     vector<Statement> getBodyStatements();
     GateType getGateType();
     
   private:
     string identifier;
     Params* params;
-    vector<string> qargs;
+    vector<Argument> qargs;
     vector<Statement> bodyStatements;
     GateType gateType;
 };

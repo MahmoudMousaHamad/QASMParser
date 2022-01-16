@@ -6,6 +6,7 @@ using namespace std;
 
 class Params {
   public:
+    Params(string params[]);
     Params(string theta, string phi, string lambda);
 
     string getParam(ParamType type);

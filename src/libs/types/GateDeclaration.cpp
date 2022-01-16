@@ -3,7 +3,7 @@
 GateDeclaration::GateDeclaration(
     string identifier,
     Params *params,
-    vector<string> qargs,
+    vector<Argument> qargs,
     vector<Statement> bodyStatements,
     GateType gateType) {
     this->identifier = identifier;
@@ -13,11 +13,13 @@ GateDeclaration::GateDeclaration(
     this->gateType = gateType;
 }
 
-Statement* GateDeclaration::Create(string identifier,
-    Params *params,
-    vector<string> qargs,
-    vector<Statement> bodyStatements,
-    GateType gateType) {
+Statement* GateDeclaration::Create(string s, GateType gateType = GateType::unitary) {
+    vector<string> tokens = HelperParser::Tokenize(s);
+
+    string identifier = HelperParser::GetName(tokens.at(0));
+    Params *params = HelperParser::GetParams(tokens.at(0));
+    vector<Argument> qargs = HelperParser::ParseQargs(tokens.at(1));
+    vector<Statement> bodyStatements = HelperParser::GetBodyStatements(s);
 
     return new GateDeclaration(identifier, params, qargs, bodyStatements, gateType);
 }
@@ -26,7 +28,7 @@ string GateDeclaration::getIdentifier() { return this->identifier; }
 
 Params* GateDeclaration::getGateParams() { return this->params; }
 
-vector<string> GateDeclaration::getQargs() { return this->qargs; }
+vector<Argument> GateDeclaration::getQargs() { return this->qargs; }
 
 vector<Statement> GateDeclaration::getBodyStatements() { return this->bodyStatements; }
 

@@ -2,6 +2,10 @@
 
 Reset::Reset(Argument* arg) { this->arg = arg; }
 
-Statement* Reset::Create(Argument* arg) { return new Reset(arg); }
+Statement* Reset::Create(string s) { 
+    Argument *arg = HelperParser::ParseArg(s);
+
+    return new Reset(arg); 
+}
 
 Argument* Reset::getArg() { return this->arg; }

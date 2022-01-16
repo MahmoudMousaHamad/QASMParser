@@ -2,16 +2,16 @@
 
 class IfBlock : public Statement {
   public:
-    IfBlock(Argument* carg, int intValue, vector<Statement> bodyStatements);
+    IfBlock(Argument* carg, int intValue, Statement bodyStatements);
 
-    static Statement* Create(Argument* carg, int intValue, vector<Statement> bodyStatements);
+    static Statement* Create(string s);
 
     Argument* getcarg();
     int getIntValue();
-    vector<Statement> getBodyStatements();
+    Statement getBodyStatements();
 
   private:
     Argument* carg;
     int intValue;
-    vector<Statement> bodyStatements;
+    Statement bodyStatements;
 };
