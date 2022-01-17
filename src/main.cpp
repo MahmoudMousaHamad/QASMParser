@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 
-#include "statement.h"
+#include "Statement.h"
 
 using namespace std;
 
@@ -30,22 +30,16 @@ int main() {
   ifstream infile("filename.qasm");
   string line;
 
-
   while(getline(infile, line)) {
-    // preprocess (strip) line 
-    // TODO: remove semi colon at end of line
-    string::iterator end_pos = remove(line.begin(), line.end(), ' ');
-    line.erase(end_pos, line.end());
-
+    string preprocessed =  HelperParser::Preprocess(line);
     // skip if comment
-    if (line[0] == '/' && line[1] == '/') {
+    if (preprocessed[0] == '/' && preprocessed[1] == '/') {
       continue;
     }
 
     // split line into tokens delimttied by space
-    vector<string> tokens = split(line, ' ');
-    
-    // get statement type
-    string command = tokens[0];
+    vector<string> tokens = split(preprocessed, ' ');
+  
+    Statement current = HelperParser::CreateStatement(preprocessed);
   }
 } 

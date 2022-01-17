@@ -2,10 +2,10 @@
 
 Include::Include(string filename) { this->filename = filename; }
 
-Statement* Include::Create(string s) { 
+Statement Include::Create(string s) { 
     string filename = HelperParser::GetFilename(s);
     
-    return new Include(filename); 
+    return Include(filename); 
 }
 
 string Include::getFilename() { return this->filename; }

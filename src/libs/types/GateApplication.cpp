@@ -9,7 +9,7 @@ GateApplication::GateApplication(
     this->gateArgs = gateArgs;
 }
 
-Statement* GateApplication::Create(string s) {
+Statement GateApplication::Create(string s) {
     GateType gateType; // TODO: FIXME: why do we need gate type for gate application?
     Params* gateParams; 
     vector<Argument> gateArguments;
@@ -33,7 +33,7 @@ Statement* GateApplication::Create(string s) {
         gateParams = new Params(stringparams);
     }
 
-    return new GateApplication(gateType, gateParams, gateArguments);
+    return GateApplication(gateType, gateParams, gateArguments);
 }
 
 GateType GateApplication::getGateType() { return this->gateType; }

@@ -10,7 +10,7 @@ class GateDeclaration : public Statement {
       GateType gateType
     );
 
-    static Statement* Create(string s, GateType gateType = GateType::unitary);
+    static Statement Create(string s, GateType gateType = GateType::unitary);
 
     string getIdentifier();
     Params* getGateParams();

@@ -4,7 +4,7 @@ class Reset : public Statement {
   public:
     Reset(Argument* arg);
 
-    static Statement* Create(string s);
+    static Statement Create(string s);
 
     Argument* getArg();
 

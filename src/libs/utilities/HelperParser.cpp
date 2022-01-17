@@ -9,7 +9,7 @@ vector<Argument> HelperParser::ParseArgs(string s) {
 
     for (int i = 0; i < tokens.size(); ++i) {
         string sarg = tokens[i];
-        Argument arg = ParseArg(sarg);
+        Argument arg = ParseArg(sarg, ArgumentType::quantum);
 
         qargs.push_back(arg);
     }
@@ -60,7 +60,7 @@ int HelperParser::GetConditionInt(string s) {
 Statement HelperParser::GetIfBlockQop(string s) {
     int qopIndex = s.find_first_of(")") + 2; // find ) then add two to index so that you skip space
     string sstatement = s.substr(qopIndex, s.size() - qopIndex);
-    string preprocessed = preprocess(sstatement);
+    string preprocessed = Preprocess(sstatement);
 
     return CreateStatement(preprocessed);
 }
@@ -72,7 +72,7 @@ string HelperParser::GetFilename(string s) {
 Argument HelperParser::ParseArg(string s, ArgumentType generalType) {
     bool reg = s.find('[') == string::npos;
 
-    string identifier = reg ?  preprocess(s) : GetName(s);
+    string identifier = reg ?  Preprocess(s) : GetName(s);
 
     ArgumentType type;
 
@@ -111,16 +111,9 @@ int HelperParser::GetSize(string s) {
 
 Statement HelperParser::CreateStatement(string s) {
     // get command
-    int index = 0;
-    char current = s.at(index);
-    while (current != ' ' || current != '(') {
-        current = s.at(index++);
-    }
-    string command = s.substr(0, index);
-
-    // remove command from statement string and preprocess 
-    s = s.substr(index, s.size() - index);
-    s = preprocess(s);
+    string* commandAndStatement = GetCommandAndStatement(s);
+    string command = commandAndStatement[0];
+    s = commandAndStatement[1];
 
     Statement statement;
 
@@ -160,6 +153,34 @@ Statement HelperParser::CreateStatement(string s) {
     return statement;
 }
 
+string HelperParser::Preprocess(string s) {
+    // remove semi colon
+    int charIndex = s.find(';');
+    if (charIndex >= 0) {
+        s = s.substr(0, charIndex);
+    }
+
+    // remove white space
+    return trim(s);
+}
+
+string* HelperParser::GetCommandAndStatement(string s) {
+    string array[2];
+
+    int index = 0;
+    char current = s.at(index);
+    while (current != ' ' || current != '(') {
+        current = s.at(index++);
+    }
+    string command = s.substr(0, index);
+    string statement = s.substr(index, s.size() - index);
+
+    array[0] = command;
+    array[1] = statement;
+
+    return array;
+}
+
 template <typename Out>
 void HelperParser::split(const string &s, char delim, Out result) {
     std::istringstream iss(s);
@@ -194,15 +215,4 @@ string trim(const string &s){
     } while (distance(start, end) > 0 && isspace(*end));
  
     return string(start, end + 1);
-}
-
-string preprocess(string s) {
-    // remove semi colon
-    int charIndex = s.find(';');
-    if (charIndex >= 0) {
-        s = s.substr(0, charIndex);
-    }
-
-    // remove white space
-    return trim(s);
 }

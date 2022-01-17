@@ -9,7 +9,16 @@
 #include "enums.h"
 #include "Argument.h"
 #include "Params.h"
-#include "Statement.h" // TODO: FIXME: https://stackoverflow.com/questions/18094584/include-statement-includes-itself
+#include "Statement.h"
+#include "Barrier.h"
+#include "GateApplication.h"
+#include "GateDeclaration.h"
+#include "IfBlock.h"
+#include "Include.h"
+#include "Measure.h"
+#include "RegisterDeclaration.h"
+#include "Reset.h"
+#include "Version.h"
 
 class HelperParser {
     public:
@@ -24,6 +33,9 @@ class HelperParser {
         static string GetFilename(string s);
         static Argument ParseArg(string s, ArgumentType type);
         static int GetSize(string s);
+        static Statement CreateStatement(string s);
+        static string Preprocess(string s);
+        static string* GetCommandAndStatement(string s);
     
     private: 
         template <typename Out>
