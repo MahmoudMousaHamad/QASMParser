@@ -29,10 +29,7 @@ vector<string> split(const string &s, char delim) {
 int main() {
   ifstream infile("filename.qasm");
   string line;
-  
-  typedef Statement* (*StatementFactory)();
-  map<string, StatementFactory>  statementlookup;
-  // TODO: generate statementlookup map
+
 
   while(getline(infile, line)) {
     // preprocess (strip) line 

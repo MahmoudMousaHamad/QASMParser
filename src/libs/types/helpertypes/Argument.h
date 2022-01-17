@@ -6,7 +6,7 @@ using namespace std;
 
 class Argument {
   public:
-    Argument(ArgumentType type, string identifier, int index);
+    Argument(ArgumentType type, string identifier, int index = -1);
 
     ArgumentType getArgumentType();
     string getIdentifier();

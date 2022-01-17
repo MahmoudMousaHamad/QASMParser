@@ -4,11 +4,12 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include <map>
 
 #include "enums.h"
 #include "Argument.h"
 #include "Params.h"
-// #include "Statement.h" // TODO: FIXME: https://stackoverflow.com/questions/18094584/include-statement-includes-itself
+#include "Statement.h" // TODO: FIXME: https://stackoverflow.com/questions/18094584/include-statement-includes-itself
 
 class HelperParser {
     public:
@@ -21,7 +22,7 @@ class HelperParser {
         static int GetConditionInt(string s);
         static Statement GetIfBlockQop(string s);
         static string GetFilename(string s);
-        static Argument ParseArg(string s);
+        static Argument ParseArg(string s, ArgumentType type);
         static int GetSize(string s);
     
     private: 
@@ -30,3 +31,4 @@ class HelperParser {
         static vector<string> split(const string &s, char delim);
         static string getSubstringBetweenChars(string s, char first, char second);
 };
+

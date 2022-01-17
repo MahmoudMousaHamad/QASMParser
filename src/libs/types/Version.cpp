@@ -4,8 +4,8 @@ Version::Version(string version) {
     this->version = version;
 }
 
-Statement* Version::Create(string version) {
-    return new Version(version);
+Statement Version::Create(string version) {
+    return Version(version);
 }
 
 string Version::getVersion() { return this->version; }

@@ -8,8 +8,8 @@ Measure::Measure(Argument *qarg, Argument *carg) {
 Statement* Measure::Create(string s) {
     vector<string> tokens = HelperParser::Tokenize(s);
 
-    Argument *qarg = HelperParser::ParseArg(tokens[0]);
-    Argument *carg = HelperParser::ParseArg(tokens[2]);
+    Argument *qarg = HelperParser::ParseArg(tokens[0], ArgumentType::quantum);
+    Argument *carg = HelperParser::ParseArg(tokens[2], ArgumentType:classical);
     
     return new Measure(qarg, carg);
 }

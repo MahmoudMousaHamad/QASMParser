@@ -3,7 +3,7 @@
 class Version : public Statement {
   public:
     Version(string version);
-    static Statement* Create(string version);
+    static Statement Create(string version);
 
     string getVersion();
 

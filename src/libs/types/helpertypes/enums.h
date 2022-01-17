@@ -13,7 +13,9 @@ enum class ArgumentType {
   qubit, 
   qreg, 
   bit, 
-  creg
+  creg,
+  quantum,
+  classical
 };
 
 enum class GateType {
