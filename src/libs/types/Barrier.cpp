@@ -5,7 +5,7 @@ Barrier::Barrier(vector<Argument> args) {
 }
 
 Statement* Barrier::Create(string s) {
-    vector<Argument> args = HelperParser::ParseQargs(s);
+    vector<Argument> args = HelperParser::ParseArgs(s);
 
     return new Barrier(args);
 }

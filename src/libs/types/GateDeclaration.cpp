@@ -17,8 +17,8 @@ Statement* GateDeclaration::Create(string s, GateType gateType = GateType::unita
     vector<string> tokens = HelperParser::Tokenize(s);
 
     string identifier = HelperParser::GetName(tokens.at(0));
-    Params *params = HelperParser::GetParams(tokens.at(0));
-    vector<Argument> qargs = HelperParser::ParseQargs(tokens.at(1));
+    Params params = HelperParser::GetParams(tokens.at(0));
+    vector<Argument> qargs = HelperParser::ParseArgs(tokens.at(1));
     vector<Statement> bodyStatements = HelperParser::GetBodyStatements(s);
 
     return new GateDeclaration(identifier, params, qargs, bodyStatements, gateType);

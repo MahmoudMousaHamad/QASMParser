@@ -17,9 +17,9 @@ Statement* GateApplication::Create(string s) {
     vector<string> tokens = HelperParser::Tokenize(s);
 
     if (tokens.size() == 1) {
-        gateArguments = HelperParser::ParseQargs(tokens.at(0));
+        gateArguments = HelperParser::ParseArgs(tokens.at(0));
     } else if (tokens.size() == 2) {
-        gateArguments = HelperParser::ParseQargs(tokens.at(1)); 
+        gateArguments = HelperParser::ParseArgs(tokens.at(1)); 
     } else {
         throw new exception("Gate Application tokens are not the correct size.");
     }
