@@ -6,8 +6,8 @@ Params::Params(string theta, string phi, string lambda) {
     this->lambda = lambda;
 }
 
-Params::Params(string params[]) {
-    int length = sizeof(params)/sizeof(*params);
+Params::Params(vector<string> params) {
+    int length = params.size();
     if (length == 1) {
         this->lambda = params[0];
     } else if (length == 2) {
@@ -35,5 +35,5 @@ string Params::getParam(ParamType type) {
             break;
     }
 
-    return '\0';
+    return "";
 }

@@ -1,11 +1,12 @@
 #include "Reset.h"
+#include "HelperParser.h"
 
-Reset::Reset(Argument* arg) { this->arg = arg; }
+Reset::Reset(Argument arg) :  Statement("Reset") { this->arg = arg; }
 
-Statement Reset::Create(string s) { 
-    Argument *arg = HelperParser::ParseArg(s, ArgumentType::quantum);
+Reset* Reset::Create(string s) { 
+    Argument arg = HelperParser::ParseArg(s, ArgumentType::quantum);
 
-    return Reset(arg); 
+    return new Reset(arg); 
 }
 
-Argument* Reset::getArg() { return this->arg; }
+Argument Reset::getArg() { return this->arg; }

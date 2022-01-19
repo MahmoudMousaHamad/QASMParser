@@ -1,13 +1,13 @@
 #include "Barrier.h"
 
-Barrier::Barrier(vector<Argument> args) {
+Barrier::Barrier(vector<Argument> args) : Statement("Barrier") {
     this->args = args;
 }
 
-Statement Barrier::Create(string s) {
+Barrier* Barrier::Create(string s) {
     vector<Argument> args = HelperParser::ParseArgs(s);
 
-    return Barrier(args);
+    return new Barrier(args);
 }
 
 vector<Argument> Barrier::getArgs() { return this->getArgs(); }

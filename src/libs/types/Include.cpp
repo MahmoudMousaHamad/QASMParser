@@ -1,11 +1,11 @@
 #include "Include.h"
 
-Include::Include(string filename) { this->filename = filename; }
+Include::Include(string filename) : Statement("Include") { this->filename = filename; }
 
-Statement Include::Create(string s) { 
+Include* Include::Create(string s) { 
     string filename = HelperParser::GetFilename(s);
     
-    return Include(filename); 
+    return new Include(filename); 
 }
 
 string Include::getFilename() { return this->filename; }

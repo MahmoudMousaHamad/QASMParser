@@ -4,16 +4,13 @@ using namespace std;
 
 #include <string>
 #include <vector>
-
-#include "Argument.h"
-#include "enums.h"
-#include "Params.h"
-#include "HelperParser.h"
+#include <boost/any.hpp>
 
 class Statement {
   public:
-    vector<string> gettokens();
+    Statement(string type) {this->type = type;};
+    virtual ~Statement() {};
+    string type; 
+    virtual boost::any value() = 0;
   private:
-    vector<string> tokens;
-  
 };

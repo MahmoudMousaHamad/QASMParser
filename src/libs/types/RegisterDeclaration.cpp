@@ -1,16 +1,18 @@
 #include "RegisterDeclaration.h"
 
-RegisterDeclaration::RegisterDeclaration(RegisterType type, string identifier, int size) {
+
+RegisterDeclaration::RegisterDeclaration (RegisterType type, string identifier, int size)  : Statement("RegisterDeclaration") {
     this->type = type;
     this->identifier = identifier;
     this->size = size;
 }
 
-Statement RegisterDeclaration::Create(string s, RegisterType type) {
+RegisterDeclaration* RegisterDeclaration::Create(string s, RegisterType type) {
     string identifier = HelperParser::GetName(s);
+
     int size = HelperParser::GetSize(s);
     
-    return RegisterDeclaration(type, identifier, size);
+    return new RegisterDeclaration(type, identifier, size);
 }
 
 RegisterType RegisterDeclaration::getType() { return this->type; }

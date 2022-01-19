@@ -1,22 +1,21 @@
 #include "IfBlock.h"
 
-IfBlock::IfBlock(Argument carg, int intValue, Statement bodyStatements) {
+IfBlock::IfBlock(Argument carg, int intValue, Statement* bodyStatement) : Statement("IfBlock") {
     this->carg = carg;
     this->intValue = intValue;
-    this->bodyStatements = bodyStatements;
+    this->bodyStatement = bodyStatement;
 }
 
-Statement IfBlock::Create(string s) {
-    // TODO: FIXME: why argument pointer?
+IfBlock* IfBlock::Create(string s) {
     Argument carg = HelperParser::GetConditionCarg(s);
     int intValue = HelperParser::GetConditionInt(s);
-    Statement bodyStatements = HelperParser::GetIfBlockQop(s); // TODO: is it always a single operation or can it have multiple ones?
+    Statement* bodyStatement = HelperParser::GetIfBlockQop(s); // TODO: is it always a single operation or can it have multiple ones?
 
-    return IfBlock(carg, intValue, bodyStatements);
+    return new IfBlock(carg, intValue, bodyStatement);
 }
 
 Argument IfBlock::getcarg() { return this->carg; }
 
 int IfBlock::getIntValue() { return this->intValue; }
 
-Statement IfBlock::getBodyStatements() { return this->bodyStatements; }
+Statement* IfBlock::getBodyStatements() { return this->bodyStatement; }

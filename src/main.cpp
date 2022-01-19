@@ -6,40 +6,97 @@
 #include <iterator>
 #include <vector>
 #include <map>
+#include <memory>
+#include <boost/any.hpp>
 
+#include "HelperParser.h"
 #include "Statement.h"
 
 using namespace std;
 
-template <typename Out>
-void split(const string &s, char delim, Out result) {
-    std::istringstream iss(s);
-    std::string item;
-    while (std::getline(iss, item, delim)) {
-        *result++ = item;
-    }
-}
+/*
+class Base {
+  public:
+    Base(string name) {this->name = name;};
+    string name = "BaseName";
+    virtual ~Base() {};
+    virtual boost::any value() = 0;
+};
 
-vector<string> split(const string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, std::back_inserter(elems));
-    return elems;
-}
+class Derived : public Base {
+  public:
+    Derived(string derivedName) : Base("TEST_TEST") {this->derivedName = derivedName;};
+    string derivedName = "DerivedName";
+    boost::any value() { return this; };
+};
+
 
 int main() {
-  ifstream infile("filename.qasm");
-  string line;
 
+  vector<Base*> objects;
+
+  Derived* derived = new Derived("TESET");
+
+  derived->derivedName = "derivedName";
+  derived->name = "name";
+
+  objects.push_back(new Derived("SECOND TEST!!!"));
+
+  Derived *d = dynamic_cast<Derived*>(objects.at(0));
+
+  Derived *d2 = boost::any_cast<Derived*>(objects.at(0)->value());
+
+  return 1;
+}
+
+*/
+
+
+int main() {
+  ifstream infile("example.qasm");
+  string line;
+  vector<string> lines;
+  vector<Statement*> statements;
+
+  // convert file to vector, line by line and process each line
   while(getline(infile, line)) {
     string preprocessed =  HelperParser::Preprocess(line);
+
     // skip if comment
-    if (preprocessed[0] == '/' && preprocessed[1] == '/') {
+    if ((preprocessed[0] == '/' && preprocessed[1] == '/') || preprocessed == "\n") {
       continue;
     }
 
-    // split line into tokens delimttied by space
-    vector<string> tokens = split(preprocessed, ' ');
-  
-    Statement current = HelperParser::CreateStatement(preprocessed);
+    lines.push_back(preprocessed);
+  }
+
+  infile.close();
+
+  // convert array of string statements to objects
+  for (int i = 0; i < lines.size(); ++i) {
+    string line = lines.at(i);
+    string gatePrefix = "gate ";
+
+    if (!line.compare(0, gatePrefix.size(), gatePrefix)) {
+      int new_i;
+      for (int j = i + 1; j < lines.size(); ++j) {
+        line += lines.at(j);
+        new_i = j;
+        if (lines.at(j).find('}')) {
+          break;
+        }
+      }
+    }
+
+    cout << line << '\n';
+
+    statements.push_back(HelperParser::CreateStatement(line));
+  }
+
+  for (auto* s : statements) {
+    if (s->type == "Version") {
+      Version *v = boost::any_cast<Version*>(s->value());
+      cout << v->getVersion();
+    }
   }
 } 

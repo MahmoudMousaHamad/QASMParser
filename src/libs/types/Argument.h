@@ -1,3 +1,5 @@
+#pragma once
+
 using namespace std;
 
 #include <string>
@@ -7,6 +9,7 @@ using namespace std;
 class Argument {
   public:
     Argument(ArgumentType type, string identifier, int index = -1);
+    Argument() = default;
 
     ArgumentType getArgumentType();
     string getIdentifier();

@@ -1,11 +1,11 @@
 #include "Version.h"
 
-Version::Version(string version) {
+Version::Version(string version) : Statement("Version") {
     this->version = version;
 }
 
-Statement Version::Create(string version) {
-    return Version(version);
+Version* Version::Create(string version) {
+    return new Version(version);
 }
 
 string Version::getVersion() { return this->version; }

@@ -1,13 +1,16 @@
+#pragma once
+
 #include "Statement.h"
+#include "Argument.h"
 
 class Reset : public Statement {
   public:
-    Reset(Argument* arg);
+    Reset(Argument arg);
+    static Reset* Create(string s);
+    Argument getArg();
 
-    static Statement Create(string s);
-
-    Argument* getArg();
+    boost::any value() { return this; }
 
   private:
-    Argument* arg;
+    Argument arg;
 };

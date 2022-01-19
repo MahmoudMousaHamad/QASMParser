@@ -26,7 +26,7 @@ string HelperParser::GetName(string s) {
 
     int counter = 0;
     char current = s[counter];
-    while (current != '(' || current != '[') {
+    while (current != '(' && current != '[') {
         name += current;
         current = s[counter++];
     }
@@ -38,11 +38,25 @@ Params HelperParser::GetParams(string s) {
     // tokenize
     vector<string> tokens = Tokenize(getSubstring(s, "(", ")"), ',');
 
-    return Params(&tokens[0]);
+    return Params(tokens);
 }
 
-vector<Statement> HelperParser::GetBodyStatements(string s) {
+vector<Statement*> HelperParser::GetBodyStatements(string s) {
+    vector<Statement*> statements;
 
+    s = getSubstring(s, "{", "}");
+
+    s = Preprocess(s);
+
+    string sstatement;
+    istringstream iss(s);
+
+    while(getline(iss, sstatement)) {
+        statements.push_back(CreateStatement(sstatement));
+    }
+
+    return statements;
+    
 }
 
 Argument HelperParser::GetConditionCarg(string s) {
@@ -54,14 +68,15 @@ Argument HelperParser::GetConditionCarg(string s) {
 }
 
 int HelperParser::GetConditionInt(string s) {
-    return stoi(getSubstring(s, "==", ")"));
+    string sint = getSubstring(s, "==", ")");
+    return stoi(sint);
 }
 
-Statement HelperParser::GetIfBlockQop(string s) {
+Statement* HelperParser::GetIfBlockQop(string s) {
     int qopIndex = s.find_first_of(")") + 2; // find ) then add two to index so that you skip space
     string sstatement = s.substr(qopIndex, s.size() - qopIndex);
     string preprocessed = Preprocess(sstatement);
-
+    // TODO: return created statement
     return CreateStatement(preprocessed);
 }
 
@@ -109,48 +124,45 @@ int HelperParser::GetSize(string s) {
     return stoi(getSubstring(s, "[", "]"));
 }
 
-Statement HelperParser::CreateStatement(string s) {
+Statement* HelperParser::CreateStatement(string s) {
     // get command
     string* commandAndStatement = GetCommandAndStatement(s);
     string command = commandAndStatement[0];
     s = commandAndStatement[1];
 
-    Statement statement;
-
     if (command == "OPENQASM") {
-        statement = Version::Create(s);
+        return Version::Create(s);
     }
     else if (command == "qreg") {
-        statement = RegisterDeclaration::Create(s, RegisterType::quantum);
+        return RegisterDeclaration::Create(s, RegisterType::quantum);
     }
     else if (command == "creg") {
-        statement = RegisterDeclaration::Create(s, RegisterType::classical);
+        return RegisterDeclaration::Create(s, RegisterType::classical);
     }
     else if (command == "include") {
-        statement = Include::Create(s);
+        return Include::Create(s);
     }
     else if (command == "gate") {
-        statement = GateDeclaration::Create(s, GateType::unitary);
+        return GateDeclaration::Create(s, GateType::unitary);
     }
     else if (command == "opaque") {
-        statement = GateDeclaration::Create(s, GateType::opaque);
+        return GateDeclaration::Create(s, GateType::opaque);
     }
     else if (command == "measure") {
-        statement = Measure::Create(s);
+        return Measure::Create(s);
     }
     else if (command == "reset") {
-        statement = Reset::Create(s);
+        return Reset::Create(s);
     }
     else if (command == "if") {
-        statement = IfBlock::Create(s);
+        return IfBlock::Create(s);
     }
     else if (command == "barrier") {
-        statement = Barrier::Create(s);
-    } else {
-        statement = GateApplication::Create(s);
+        return Barrier::Create(s);
     }
+    
+    return GateApplication::Create(s);
 
-    return statement;
 }
 
 string HelperParser::Preprocess(string s) {
@@ -165,13 +177,16 @@ string HelperParser::Preprocess(string s) {
 }
 
 string* HelperParser::GetCommandAndStatement(string s) {
-    string array[2];
+    string* array = new string[2];
 
     int index = 0;
     char current = s.at(index);
-    while (current != ' ' || current != '(') {
-        current = s.at(index++);
+
+    while (current != ' ' && current != '(') {
+        index++;
+        current = s.at(index);
     }
+
     string command = s.substr(0, index);
     string statement = s.substr(index, s.size() - index);
 
@@ -179,6 +194,14 @@ string* HelperParser::GetCommandAndStatement(string s) {
     array[1] = statement;
 
     return array;
+}
+
+static string RemoveChars(string s, string chars) {
+    for (int i = 0; i < chars.size(); ++i) {
+        s.erase(remove(s.begin(), s.end(), chars.at(i)), s.end());
+    }
+
+    return s;
 }
 
 template <typename Out>
@@ -196,14 +219,18 @@ vector<string> HelperParser::split(const string &s, char delim) {
     return elems;
 }
 
-string getSubstring(string s, string first, string second) {
+string HelperParser::getSubstring(string s, string first, string second) {
     int firstIndex = s.find_first_of(first);
-    int secondIndex = s.find_last_of(second);
+    int secondIndex = s.find_first_of(second);
+    
+    string result = s.substr(firstIndex + first.size(), secondIndex - firstIndex - 1);
 
-    return s.substr(firstIndex + 1, secondIndex - firstIndex);
+    cout << "getSubstring result " << result << '\n';
+
+    return result;
 }
 
-string trim(const string &s){
+string HelperParser::trim(const string &s){
     auto start = s.begin();
     while (start != s.end() && std::isspace(*start)) {
         start++;

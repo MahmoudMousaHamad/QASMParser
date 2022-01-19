@@ -1,15 +1,20 @@
+#pragma once
 #include "Statement.h"
+#include "Argument.h"
+#include "HelperParser.h"
 
 class Measure : public Statement {
   public:
-    Measure(Argument* qarg, Argument* carg);
+    Measure(Argument qarg, Argument carg);
 
-    static Statement Create(string s);
+    static Measure* Create(string s);
 
-    Argument* getQarg();
-    Argument* getcarg();
+    Argument getQarg();
+    Argument getcarg();
 
+    boost::any value() { return this; }
+    
   private:
-    Argument* qarg;
-    Argument* carg;
+    Argument qarg;
+    Argument carg;
 };

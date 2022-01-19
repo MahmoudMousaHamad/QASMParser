@@ -1,6 +1,6 @@
 #include "Argument.h"
 
-Argument::Argument(ArgumentType type, string identifier, int index = -1) {
+Argument::Argument(ArgumentType type, string identifier, int index) {
     this->argumentType = type;
     this->identifier = identifier;
     this->index = index;
