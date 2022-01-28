@@ -225,8 +225,6 @@ string HelperParser::getSubstring(string s, string first, string second) {
     
     string result = s.substr(firstIndex + first.size(), secondIndex - firstIndex - 1);
 
-    cout << "getSubstring result " << result << '\n';
-
     return result;
 }
 

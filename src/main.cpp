@@ -94,9 +94,9 @@ int main() {
   }
 
   for (auto* s : statements) {
-    if (s->type == "Version") {
+    if(s->type == "Version") {
       Version *v = boost::any_cast<Version*>(s->value());
       cout << v->getVersion();
-    }
+    } else if() {}
   }
 } 
