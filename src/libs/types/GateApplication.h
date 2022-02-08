@@ -4,13 +4,19 @@
 
 class GateApplication : public Statement {
   public:
-    GateApplication(GateType gateType, Params gateParams, vector<Argument> gateArguments);
+    GateApplication(string gateIdentifier, 
+                    GateType gateType,
+                    Params gateParams, 
+                    vector<Argument> gateArguments);
 
-    static GateApplication* Create(string s);
+    static GateApplication* Create(string gateIdentifier, string s);
 
     GateType getGateType();
     Params getGateParams();
     vector<Argument> getGateArgs();
+    string getIdentifier();
+
+    string toString();
 
     boost::any value() { return this; }
 

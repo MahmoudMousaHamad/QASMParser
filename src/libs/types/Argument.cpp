@@ -13,3 +13,7 @@ string Argument::getIdentifier() {
 int Argument::getIndex() {
     return this->index;
 }
+
+string Argument::toString() {
+    return identifier + "[" + to_string(index) + "]";
+}

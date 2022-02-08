@@ -14,44 +14,6 @@
 
 using namespace std;
 
-/*
-class Base {
-  public:
-    Base(string name) {this->name = name;};
-    string name = "BaseName";
-    virtual ~Base() {};
-    virtual boost::any value() = 0;
-};
-
-class Derived : public Base {
-  public:
-    Derived(string derivedName) : Base("TEST_TEST") {this->derivedName = derivedName;};
-    string derivedName = "DerivedName";
-    boost::any value() { return this; };
-};
-
-
-int main() {
-
-  vector<Base*> objects;
-
-  Derived* derived = new Derived("TESET");
-
-  derived->derivedName = "derivedName";
-  derived->name = "name";
-
-  objects.push_back(new Derived("SECOND TEST!!!"));
-
-  Derived *d = dynamic_cast<Derived*>(objects.at(0));
-
-  Derived *d2 = boost::any_cast<Derived*>(objects.at(0)->value());
-
-  return 1;
-}
-
-*/
-
-
 int main(int argc, char** argv) {
   ifstream infile(argv[1]);
   string line;
@@ -75,6 +37,11 @@ int main(int argc, char** argv) {
   // convert array of string statements to objects
   for (int i = 0; i < lines.size(); ++i) {
     string line = lines.at(i);
+
+  #ifdef DEBUG
+    cout << "DEBUG 1: " << line << '\n';
+  #endif
+
     string gatePrefix = "gate ";
 
     if (!line.compare(0, gatePrefix.size(), gatePrefix)) {
@@ -88,10 +55,13 @@ int main(int argc, char** argv) {
       }
     }
 
-    statements.push_back(HelperParser::CreateStatement(line));
+    Statement* s = HelperParser::CreateStatement(line);
+    s->id = i;
+    statements.push_back(s);
   }
 
   for (auto* s : statements) {
+    cout << s->id << ": ";
     if(s->type == "Version") {
       Version *v = boost::any_cast<Version*>(s->value());
       cout << v->getVersion() << '\n';
@@ -99,6 +69,9 @@ int main(int argc, char** argv) {
     else if(s->type == "GateDeclaration") {
       GateDeclaration *g = boost::any_cast<GateDeclaration*>(s->value());
       cout << g->getIdentifier() << '\n';
+    } else if (s->type == "GateApplication") {
+      GateApplication *g = boost::any_cast<GateApplication*>(s->value());
+      cout << g->toString() << '\n';
     }
   }
 } 

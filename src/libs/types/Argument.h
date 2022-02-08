@@ -15,6 +15,8 @@ class Argument {
     string getIdentifier();
     int getIndex();
 
+    string toString();
+    
   private:
     ArgumentType argumentType;
     string identifier;

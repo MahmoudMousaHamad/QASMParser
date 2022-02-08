@@ -11,6 +11,7 @@ class Statement {
     Statement(string type) {this->type = type;};
     virtual ~Statement() {};
     string type; 
+    int id;
     virtual boost::any value() = 0;
   private:
 };

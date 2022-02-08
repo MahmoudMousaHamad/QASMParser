@@ -38,7 +38,8 @@ string HelperParser::GetName(string s) {
     char current = s[counter];
     while (current != '(' && current != '[') {
         name += current;
-        current = s[counter++];
+        counter++;
+        current = s[counter];
     }
 
     return name;
@@ -171,8 +172,7 @@ Statement* HelperParser::CreateStatement(string s) {
         return Barrier::Create(s);
     }
     
-    return GateApplication::Create(s);
-
+    return GateApplication::Create(command, s);
 }
 
 string HelperParser::Preprocess(string s) {
