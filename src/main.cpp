@@ -52,8 +52,8 @@ int main() {
 */
 
 
-int main() {
-  ifstream infile("example.qasm");
+int main(int argc, char** argv) {
+  ifstream infile(argv[1]);
   string line;
   vector<string> lines;
   vector<Statement*> statements;
@@ -63,7 +63,7 @@ int main() {
     string preprocessed =  HelperParser::Preprocess(line);
 
     // skip if comment
-    if ((preprocessed[0] == '/' && preprocessed[1] == '/') || preprocessed == "\n") {
+    if ((preprocessed[0] == '/' && preprocessed[1] == '/') || preprocessed == "\n" || preprocessed == "") {
       continue;
     }
 
@@ -78,17 +78,15 @@ int main() {
     string gatePrefix = "gate ";
 
     if (!line.compare(0, gatePrefix.size(), gatePrefix)) {
-      int new_i;
+      line += '\n';
       for (int j = i + 1; j < lines.size(); ++j) {
-        line += lines.at(j);
-        new_i = j;
-        if (lines.at(j).find('}')) {
+        line += lines.at(j) + '\n';
+        i = j;
+        if (lines.at(j).find('}') != string::npos) {
           break;
         }
       }
     }
-
-    cout << line << '\n';
 
     statements.push_back(HelperParser::CreateStatement(line));
   }
@@ -96,7 +94,11 @@ int main() {
   for (auto* s : statements) {
     if(s->type == "Version") {
       Version *v = boost::any_cast<Version*>(s->value());
-      cout << v->getVersion();
-    } else if() {}
+      cout << v->getVersion() << '\n';
+    } 
+    else if(s->type == "GateDeclaration") {
+      GateDeclaration *g = boost::any_cast<GateDeclaration*>(s->value());
+      cout << g->getIdentifier() << '\n';
+    }
   }
 } 

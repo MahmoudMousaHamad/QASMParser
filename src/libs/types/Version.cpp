@@ -5,7 +5,7 @@ Version::Version(string version) : Statement("Version") {
 }
 
 Version* Version::Create(string version) {
-    return new Version(version);
+    return new Version(HelperParser::Preprocess(version));
 }
 
 string Version::getVersion() { return this->version; }

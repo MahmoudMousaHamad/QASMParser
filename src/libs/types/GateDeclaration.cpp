@@ -14,10 +14,11 @@ GateDeclaration::GateDeclaration(
 }
 
 GateDeclaration* GateDeclaration::Create(string s, GateType gateType) {
-    vector<string> tokens = HelperParser::Tokenize(s, ' ');
-
-    string identifier = HelperParser::GetName(tokens.at(0));
-    Params params = HelperParser::GetParams(tokens.at(0));
+    vector<string> tokens = HelperParser::TokenizeUntil(s, ' ', "{");
+    
+    // gate name(params) qargs
+    string identifier = HelperParser::GetName(tokens.at(0)); // TODO: FIXME AND TEST ME WITH PARAMS
+    Params params = HelperParser::GetParams(tokens.at(0)); // TODO: FIXME AND TEST ME WITH PARAMS
     vector<Argument> qargs = HelperParser::ParseArgs(tokens.at(1));
     vector<Statement*> bodyStatements = HelperParser::GetBodyStatements(s);
 

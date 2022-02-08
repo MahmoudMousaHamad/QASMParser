@@ -27,6 +27,7 @@ class HelperParser {
     public:
         static vector<Argument> ParseArgs(string s);
         static vector<string> Tokenize(string s, char delimiter);
+        static vector<string> TokenizeUntil(string s, char delimiter, string until);
         static string GetName(string s);
         static Params GetParams(string s);
         static vector<Statement*> GetBodyStatements(string s);

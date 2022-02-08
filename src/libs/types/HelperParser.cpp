@@ -18,11 +18,21 @@ vector<Argument> HelperParser::ParseArgs(string s) {
 }
 
 vector<string> HelperParser::Tokenize(string s, char delimiter = ' ') {
-    return split(s, delimiter);
+    return split(trim(s), delimiter);
+}
+
+vector<string> HelperParser::TokenizeUntil(string s, char delimiter, string until) {
+    s = s.substr(0, s.find_first_of(until));
+    
+    return split(trim(s), delimiter);
 }
 
 string HelperParser::GetName(string s) {
     string name = "";
+
+    if (s.find_first_of("([") == string::npos) {
+        return trim(s);
+    }
 
     int counter = 0;
     char current = s[counter];
