@@ -14,6 +14,8 @@ Algorithm:
     - given pattern length l, find the repetitive substrings of length l in the string s
         - construct a dictionary of substrings of length l as key and the number of times
         they are seen in s as the value.
-    - return a dictionary where the key is the pattern and the value is the number of times it 
-    was repeated >= 2.
+    - return a dictionary where the key is the pattern and the value is a dictionary
+     that has two values
+        - count: the number of times it was repeated >= 2.
+        - locations: an array of indeces where the pattern occurred
 

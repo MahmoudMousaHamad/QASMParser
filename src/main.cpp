@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
   string line;
   vector<string> lines;
   vector<Statement*> statements;
+  vector<GateApplication*> cx_statements;
 
   // convert file to vector, line by line and process each line
   while(getline(infile, line)) {
@@ -72,6 +73,20 @@ int main(int argc, char** argv) {
     } else if (s->type == "GateApplication") {
       GateApplication *g = boost::any_cast<GateApplication*>(s->value());
       cout << g->toString() << '\n';
+      if (g->getIdentifier() == "cx") {
+        cx_statements.push_back(g);
+      }
     }
   }
+
+  string pattern_string = "";
+  int num_qubits = 127;
+
+  for (GateApplication *g : cx_statements) {
+    vector<Argument> gate_args = g->getGateArgs();
+    int unique_id = gate_args.at(0).getIndex() * num_qubits + gate_args.at(1).getIndex();
+    pattern_string += to_string(unique_id) + " ";
+  }
+
+  cout << pattern_string << '\n';
 } 
