@@ -1,0 +1,19 @@
+Pattern recognition for a quantum circuit
+
+Input: 
+    - Circuit
+    - Number of qubits in quantum processor
+    - Pattern length
+
+Algorithm:
+    - define an initial string
+    - assign every distinct pair of qubits a unique id
+        - unique id = first argument * number of qubits in processor + second argument
+    - concatinate all the ids. this gives you the initial string
+        - ex: s = (45 87 63) 81 45 19 57 10 45 87 63 45 19 57 45 87 63
+    - given pattern length l, find the repetitive substrings of length l in the string s
+        - construct a dictionary of substrings of length l as key and the number of times
+        they are seen in s as the value.
+    - return a dictionary where the key is the pattern and the value is the number of times it 
+    was repeated >= 2.
+
