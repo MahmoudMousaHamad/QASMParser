@@ -12,8 +12,8 @@ GateApplication::GateApplication(
 }
 
 GateApplication* GateApplication::Create(string gateIdentifier, string s) {
-    GateType gateType;
-    Params gateParams; 
+    GateType gateType = GateType::unitary;
+    Params gateParams = Params(); 
     vector<Argument> gateArguments;
 
     vector<string> tokens = HelperParser::Tokenize(s, ' ');
@@ -23,7 +23,10 @@ GateApplication* GateApplication::Create(string gateIdentifier, string s) {
         gateArguments = HelperParser::ParseArgs(tokens.at(0));
     } else if (tokens.size() == 2) {
         gateArguments = HelperParser::ParseArgs(tokens.at(1)); 
-    } else {
+    } else if (tokens.size() == 3) {
+        gateArguments = HelperParser::ParseArgs(tokens.at(2)); 
+    }
+    else {
         throw "Gate Application tokens are not the correct size.";
     }
 
@@ -52,7 +55,7 @@ string GateApplication::getIdentifier() {
 string GateApplication::toString() {
     string gate_args_s = "";
 
-    for (int i = 0; i < gateArgs.size(); ++i) {
+    for (long unsigned int i = 0; i < gateArgs.size(); ++i) {
         gate_args_s += gateArgs.at(i).toString();
 
         if (i < gateArgs.size() - 1) {

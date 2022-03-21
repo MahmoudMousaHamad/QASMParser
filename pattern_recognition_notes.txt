@@ -19,3 +19,7 @@ Algorithm:
         - count: the number of times it was repeated >= 2.
         - locations: an array of indeces where the pattern occurred
 
+Experiment:
+    - Workflow
+        QASM file -> qasm_parser -> string representation of all cx operations -> pattern_recognition -> 
+
