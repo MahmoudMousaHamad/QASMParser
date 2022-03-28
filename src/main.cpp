@@ -41,8 +41,8 @@ map<vector<int>, PatternInfo> build_pattern_map(vector<int>* operations_stream, 
 
 vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
   // Build pattern map
-  map<vector<int>, PatternInfo> map = build_pattern_map(operations_stream, pattern_length);
-  
+  map<vector<int>, PatternInfo> map = build_pattern_map(operations_stream, pattern_length);  
+
   // Filter 
   for (auto i = map.cbegin(); i != map.cend();) {
     if (i->second.count <= 1) {
@@ -52,42 +52,58 @@ vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
     }
   }
 
-  // Write patterns to file
-  // for (auto i = map.begin(); i != map.end(); ++i) {
-  //   vector<int> pattern = i->first;
-  //   for (int num : pattern) {
-  //     printf("%d ", num);
-  //   }
-  //   printf("count: %d\n", i->second.count);
-  // }
+  // If map empty, return empty segments
+  if (map.empty()) {
+    vector<vector<int>> empty;
+    return empty;
+  }
 
-  // Update count for pattern_length in histogram
+  // TODO: Write patterns to file
 
-  // Generate segments after slicing original operations stream
+  // TODO: Update count for pattern_length in histogram
+
+  // Get segments
   vector<vector<int>> segments;
+
+  // put all pattern start indeces in one set
   set<int> *global_indeces = new set<int>();
-  int previous_index = -1;
   for (auto i = map.begin(); i != map.end(); ++i) {
-    vector<int> indeces = i->second.indeces;
-    for (int index : indeces){
-      if (abs(index - previous_index) >= pattern_length || previous_index == -1){
-        global_indeces->insert(index);
-        previous_index = index;
-      }
+    for (int index : i->second.indeces){
+      global_indeces->insert(index);
     }
   }
 
-  previous_index = -1 * pattern_length;
-  for (auto i = global_indeces->begin(); i != global_indeces->end(); ++i) {
+  // convert set to vector to iterate over it in order
+  vector<int> *indeces_vector = new vector<int>(global_indeces->size()); 
+  copy(global_indeces->begin(), global_indeces->end(), indeces_vector->begin());
+  
+  free(global_indeces);
+
+  // Get segments 
+  for (int i = 0; i < indeces_vector->size() - 1; i++) {
     vector<int> segment;
-    for (int j = previous_index + pattern_length; j < *i; ++j) {
-      segment.push_back(operations_stream->at(j));
-    }
-    previous_index = *i;
-    if (segment.size() > pattern_length) {
+
+    int current_pattern_end = indeces_vector->at(i) + pattern_length - 1;
+    int next_pattern_start = indeces_vector->at(i + 1);
+
+    int segment_length = next_pattern_start - current_pattern_end;
+    if (segment_length > pattern_length + 1) {
+      int segment_start = current_pattern_end + 1;
+      int segment_end = next_pattern_start;
+      printf("DEBUG: printing found segment of size %d:\n", segment_length);
+      for (int j = segment_start; j < segment_end; ++j) {
+        printf("%d ", operations_stream->at(j));
+        segment.push_back(operations_stream->at(j));
+      }
+      printf("\n");
       segments.push_back(segment);
     }
   }
+
+
+  free(indeces_vector);
+
+  printf("DEBUG: Segments size: %ld\n", segments.size());
   
   return segments;
 }
@@ -141,7 +157,7 @@ int main(int argc, char** argv) {
     }
   }
 
-  // Example: 257 1 383 257 381 257 1 383 129 1 257 257 1 383
+  // Example: 257 1 383 ( 257 381 ) 257 1 383 ( 129 1 257 ) 257 1 383
   // Segments:  257 381, 129 1 257
 
   int num_qubits = 127;
@@ -149,33 +165,34 @@ int main(int argc, char** argv) {
   vector<int> *operations_stream = new vector<int>();
 
   // Generate operations stream
+  printf("DEBUG: initial operations stream:\n");
   for (GateApplication *g : cx_statements) {
     vector<Argument> gate_args = g->getGateArgs();
     int unique_id = gate_args.at(0).getIndex() * num_qubits + gate_args.at(1).getIndex();
     operations_stream->push_back(unique_id);
-    cout << unique_id << " ";
+    printf("%d ", unique_id);
   }
-  cout << "\n\n";
 
   vector<vector<int>> segments = run(operations_stream, pattern_length);
+
+  // Keep running experiment until segments are not empty
+  while (segments.empty() && pattern_length <= 10) {
+    segments = run(operations_stream, pattern_length++);
+  }
+
   free(operations_stream);
 
   vector<vector<int>> new_segments;
 
   // Run for pattern length++ on segments until pattern length = 10
   pattern_length++;
-  cout << segments.size() << "\n";
   while(pattern_length <= 10) {
+    printf("DEBUG: current pattern length to run: %d\n", pattern_length);
     for (vector<int> segment : segments) {
-      for(int num : segment) {
-        printf("%d ", num);
-      }
-      printf("\n");
       vector<vector<int>> temp = run(&segment, pattern_length); 
       new_segments.insert(new_segments.begin(), temp.begin(), temp.end());
     }
     segments = new_segments;
-    cout << segments.size() << "\n";
     pattern_length++;
   }  
 } 

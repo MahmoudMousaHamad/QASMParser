@@ -12,6 +12,5 @@ rm $CX_OPS
 
 for file in $QASM_FILES; do
     echo $file
-    echo $file >> $CX_OPS
-    $PARSER $file >> $CX_OPS
+    $PARSER $file
 done

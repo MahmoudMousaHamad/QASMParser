@@ -1,0 +1,12 @@
+DEBUG: initial operations stream:
+383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 383 255 127 127 255 383 383 255 127 127 255 383 383 255 255 383 383 255 255 383 383 383 383 383 DEBUG: Segments size: 0
+DEBUG: Segments size: 0
+DEBUG: Segments size: 0
+DEBUG: Segments size: 0
+DEBUG: Segments size: 0
+DEBUG: printing found segment of size 17:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Segments size: 1
+DEBUG: current pattern length to run: 8
+DEBUG: current pattern length to run: 9
+DEBUG: current pattern length to run: 10
