@@ -4,7 +4,7 @@ DEBUG: Segments size: 0
 DEBUG: Segments size: 0
 DEBUG: Segments size: 0
 DEBUG: Segments size: 0
-DEBUG: printing found segment of size 17:
+DEBUG: printing found segment of size 16:
 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
 DEBUG: Segments size: 1
 DEBUG: current pattern length to run: 8

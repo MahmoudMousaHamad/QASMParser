@@ -86,7 +86,7 @@ vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
     int current_pattern_end = indeces_vector->at(i) + pattern_length - 1;
     int next_pattern_start = indeces_vector->at(i + 1);
 
-    int segment_length = next_pattern_start - current_pattern_end;
+    int segment_length = next_pattern_start - current_pattern_end - 1;
     if (segment_length > pattern_length + 1) {
       int segment_start = current_pattern_end + 1;
       int segment_end = next_pattern_start;
