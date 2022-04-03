@@ -1,12 +1,141 @@
 DEBUG: initial operations stream:
-383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 383 255 127 127 255 383 383 255 127 127 255 383 383 255 255 383 383 255 255 383 383 383 383 383 DEBUG: Segments size: 0
-DEBUG: Segments size: 0
-DEBUG: Segments size: 0
-DEBUG: Segments size: 0
-DEBUG: Segments size: 0
+383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 383 255 127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 383 255 127 127 255 383 383 255 127 127 255 383 383 255 255 383 383 255 255 383 383 383 383 383 DEBUG: Running for pattern length 2
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: printing found segment of size 2:
+255 383 
+DEBUG: printing found segment of size 2:
+255 255 
+DEBUG: printing found segment of size 7:
+255 255 255 255 255 383 255 
+DEBUG: printing found segment of size 4:
+255 383 383 255 
+DEBUG: Running for pattern length 3
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 127 127 
+DEBUG: printing found segment of size 6:
+255 255 255 255 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: Running for pattern length 4
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 5:
+383 127 127 127 127 
+DEBUG: printing found segment of size 5:
+255 255 255 255 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: Running for pattern length 5
 DEBUG: printing found segment of size 16:
 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
-DEBUG: Segments size: 1
-DEBUG: current pattern length to run: 8
-DEBUG: current pattern length to run: 9
-DEBUG: current pattern length to run: 10
+DEBUG: Running for pattern length 6
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 7
+DEBUG: printing found segment of size 20:
+127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 8
+DEBUG: printing found segment of size 20:
+127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 9
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 10
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 9
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 8
+DEBUG: printing found segment of size 20:
+127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 7
+DEBUG: printing found segment of size 20:
+127 127 255 383 127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 6
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 5
+DEBUG: printing found segment of size 16:
+127 127 127 127 255 127 127 255 255 127 127 255 255 255 255 255 
+DEBUG: Running for pattern length 4
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: printing found segment of size 5:
+383 127 127 127 127 
+DEBUG: printing found segment of size 5:
+255 255 255 255 383 
+DEBUG: printing found segment of size 2:
+383 383 
+DEBUG: Running for pattern length 3
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 
+DEBUG: printing found segment of size 3:
+383 127 127 
+DEBUG: printing found segment of size 6:
+255 255 255 255 383 255 
+DEBUG: printing found segment of size 3:
+383 383 255 

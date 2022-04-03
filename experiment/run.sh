@@ -10,7 +10,9 @@ make -C ../src
 # Rm CX operations file
 rm $CX_OPS
 
+mkdir histograms
+
 for file in $QASM_FILES; do
     echo $file
-    $PARSER $file
+    $PARSER $file "./histograms/$(basename ${file})"
 done

@@ -39,28 +39,52 @@ map<vector<int>, PatternInfo> build_pattern_map(vector<int>* operations_stream, 
   return map;
 }
 
-vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
+vector<vector<int>> get_segments(vector<int>* operations_stream, int pattern_length, map<int,int>* historgram) {
+  printf("DEBUG: Running for pattern length %d\n", pattern_length);
   // Build pattern map
   map<vector<int>, PatternInfo> map = build_pattern_map(operations_stream, pattern_length);  
-
-  // Filter 
+  
+  // Get max count
+  int max_count = 0;
   for (auto i = map.cbegin(); i != map.cend();) {
-    if (i->second.count <= 1) {
+    if (i->second.count > max_count) {
+      max_count = i->second.count;
+    }
+    i++;
+  }
+
+  // remove all patterns that have count less than max count
+  for (auto i = map.cbegin(); i != map.cend();) {
+    if (i->second.count < max_count) {
       map.erase(i++);
     } else {
-      ++i;
+      i++;
     }
   }
 
   // If map empty, return empty segments
-  if (map.empty()) {
+  if (map.empty() || max_count == 1) {
     vector<vector<int>> empty;
     return empty;
   }
 
-  // TODO: Write patterns to file
-
-  // TODO: Update count for pattern_length in histogram
+  // Write patterns to file
+  ofstream patterns_file;
+  patterns_file.open("../experiment/patterns_file.txt", ios_base::app);
+  for (auto i = map.cbegin(); i != map.cend();) {
+    patterns_file << "Count: " << i->second.count << '\n';
+    if (historgram->count(pattern_length) > 0) {
+      historgram->at(pattern_length) = historgram->at(pattern_length) + i->second.count;
+    } else {
+      historgram->insert(pair<int,int>(pattern_length, i->second.count));
+    }
+    vector<int> pattern = i->first;
+    for (int n : pattern) {
+      patterns_file << n << ' ';
+    }
+    patterns_file << '\n';
+    ++i;
+  }
 
   // Get segments
   vector<vector<int>> segments;
@@ -87,7 +111,7 @@ vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
     int next_pattern_start = indeces_vector->at(i + 1);
 
     int segment_length = next_pattern_start - current_pattern_end - 1;
-    if (segment_length > pattern_length + 1) {
+    if (segment_length >= 2) {
       int segment_start = current_pattern_end + 1;
       int segment_end = next_pattern_start;
       printf("DEBUG: printing found segment of size %d:\n", segment_length);
@@ -100,16 +124,14 @@ vector<vector<int>> run(vector<int>* operations_stream, int pattern_length) {
     }
   }
 
-
   free(indeces_vector);
-
-  printf("DEBUG: Segments size: %ld\n", segments.size());
   
   return segments;
 }
 
 int main(int argc, char** argv) {
   ifstream infile(argv[1]);
+  string histogram_file_name = argc == 3 ? argv[2] : "../experiment/histogram.txt";
   string line;
   vector<string> lines;
   vector<Statement*> statements;
@@ -173,26 +195,55 @@ int main(int argc, char** argv) {
     printf("%d ", unique_id);
   }
 
-  vector<vector<int>> segments = run(operations_stream, pattern_length);
+  vector<vector<int>> segments;
+  vector<vector<int>> temp;
+  map<int, int> histogram;
 
-  // Keep running experiment until segments are not empty
-  while (segments.empty() && pattern_length <= 10) {
-    segments = run(operations_stream, pattern_length++);
+  // get all segments after getting all max patterns from 2 to 10
+  while (pattern_length <= 10) {
+    temp = get_segments(operations_stream, pattern_length, &histogram);
+    segments.insert(segments.begin(), temp.begin(), temp.end());
+    pattern_length++;
   }
 
-  free(operations_stream);
+  pattern_length = 9;
 
-  vector<vector<int>> new_segments;
+  // get all segments after getting all max patterns from 10 to 2
+  while (pattern_length >= 3) {
+    temp = get_segments(operations_stream, pattern_length, &histogram);
+    segments.insert(segments.begin(), temp.begin(), temp.end());
+    pattern_length--;
+  }
 
-  // Run for pattern length++ on segments until pattern length = 10
-  pattern_length++;
-  while(pattern_length <= 10) {
-    printf("DEBUG: current pattern length to run: %d\n", pattern_length);
-    for (vector<int> segment : segments) {
-      vector<vector<int>> temp = run(&segment, pattern_length); 
-      new_segments.insert(new_segments.begin(), temp.begin(), temp.end());
-    }
-    segments = new_segments;
-    pattern_length++;
-  }  
+  // Write historgram values to file for later graphical representation using python
+  ofstream histogram_file;
+  histogram_file.open(histogram_file_name);
+  for(auto i = histogram.begin(); i != histogram.end(); ++i) {
+    histogram_file << i->first << ',' << i->second << '\n';
+  }
+
+  // Keep running experiment until segments are not empty
+  // while (segments.empty() && pattern_length <= 10) {
+  //   segments = run(operations_stream, pattern_length++);
+  // }
+
+  // vector<vector<int>> new_segments;
+
+  // // Run for pattern length++ on segments until pattern length = 10
+  // pattern_length++;
+  // while(pattern_length <= 10) {
+  //   while (segments.empty() && pattern_length <= 10) {
+  //     segments = run(operations_stream, pattern_length);
+  //     pattern_length++;
+  //   }
+  //   for (vector<int> segment : segments) {
+  //     if (segment.size() > pattern_length) {
+  //       printf("DEBUG: segment\n");
+  //       vector<vector<int>> temp = run(&segment, pattern_length); 
+  //       new_segments.insert(new_segments.begin(), temp.begin(), temp.end());
+  //     }
+  //   }
+  //   segments = new_segments;
+  //   pattern_length++;
+  // }  
 } 
