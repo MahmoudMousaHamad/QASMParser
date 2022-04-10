@@ -8,7 +8,7 @@ CX_OPS="patterns.txt"
 make -C ../src
 
 # Rm CX operations file
-rm $CX_OPS
+rm $CX_OPS patterns_file.txt
 
 mkdir histograms
 
@@ -16,3 +16,5 @@ for file in $QASM_FILES; do
     echo $file
     $PARSER $file "./histograms/$(basename ${file})"
 done
+
+python percentile.py

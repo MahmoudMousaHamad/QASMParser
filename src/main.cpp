@@ -72,7 +72,7 @@ vector<vector<int>> get_segments(vector<int>* operations_stream, int pattern_len
   ofstream patterns_file;
   patterns_file.open("../experiment/patterns_file.txt", ios_base::app);
   for (auto i = map.cbegin(); i != map.cend();) {
-    patterns_file << "Count: " << i->second.count << '\n';
+    patterns_file << "" << i->second.count << ',';
     if (historgram->count(pattern_length) > 0) {
       historgram->at(pattern_length) = historgram->at(pattern_length) + i->second.count;
     } else {
@@ -195,23 +195,41 @@ int main(int argc, char** argv) {
     printf("%d ", unique_id);
   }
 
-  vector<vector<int>> segments;
-  vector<vector<int>> temp;
-  map<int, int> histogram;
+  // First get segments for l=2, then run l=3 on the segments and store new segments
+  // keep doing that until l=10
+  // Repeat for l=10 until l=2
 
-  // get all segments after getting all max patterns from 2 to 10
+  map<int, int> histogram;
+  vector<vector<int>> segments = get_segments(operations_stream, pattern_length, &histogram);
+  vector<vector<int>> temp;
+  vector<vector<int>> temp2;
+
+  pattern_length = 3;
+
   while (pattern_length <= 10) {
-    temp = get_segments(operations_stream, pattern_length, &histogram);
-    segments.insert(segments.begin(), temp.begin(), temp.end());
+    for (vector<int> segment : segments) {
+      if (segment.size() < pattern_length) continue;
+      temp2 = get_segments(&segment, pattern_length, &histogram);
+      temp.insert(temp.begin(), temp2.begin(), temp2.end());
+    }
+    segments = temp;
     pattern_length++;
   }
+
+  pattern_length = 10;
+
+  segments = get_segments(operations_stream, pattern_length, &histogram);
 
   pattern_length = 9;
 
   // get all segments after getting all max patterns from 10 to 2
   while (pattern_length >= 3) {
-    temp = get_segments(operations_stream, pattern_length, &histogram);
-    segments.insert(segments.begin(), temp.begin(), temp.end());
+    for (vector<int> segment : segments) {
+      if (segment.size() < pattern_length) continue;
+      temp2 = get_segments(&segment, pattern_length, &histogram);
+      temp.insert(temp.begin(), temp2.begin(), temp2.end());
+    }
+    segments = temp;
     pattern_length--;
   }
 

@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 histogram = {}
 
 for file in glob.glob('./histograms/*'):
-    print('Reading %s', file)
+    print('Reading ', file)
     f = open(file, 'r')
     lines = f.readlines()
     for line in lines:
